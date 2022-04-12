@@ -214,7 +214,7 @@ def generate_experiment_cfgs(id):
     opt, lr, schedule, pmult = 'adamw', 0.00006, 'poly10warm', True
     crop = '512x512'
     datasets = [
-        ('gta', 'cityscapes'),
+        ('zerowaste', 'zerowaste'),
     ]
     architecture = None
     workers_per_gpu = 4
@@ -232,14 +232,14 @@ def generate_experiment_cfgs(id):
             # 6 and 12. We point this out as it is hidden in the source code by
             # a return statement within a loop:
             # https://github.com/wasidennis/AdaptSegNet/blob/fca9ff0f09dab45d44bf6d26091377ac66607028/model/deeplab.py#L116
-            ('dlv2red', 'r101v1c'),
+            # ('dlv2red', 'r101v1c'),
             # Note: For the decoders used in combination with CNN encoders, we
             # do not apply BatchNorm in the *decoder* as it decreases
             # the UDA performance. In the encoder, BatchNorm is still applied.
             # The decoder of DeepLabV2 has no BatchNorm layer by default.
-            ('da_nodbn', 'r101v1c'),
-            ('isa_nodbn', 'r101v1c'),
-            ('dlv3p_nodbn', 'r101v1c'),
+            # ('da_nodbn', 'r101v1c'),
+            # ('isa_nodbn', 'r101v1c'),
+            # ('dlv3p_nodbn', 'r101v1c'),
             ('segformer', 'mitb5'),
         ]
         udas = [
@@ -418,14 +418,14 @@ def generate_experiment_cfgs(id):
         seeds = [0]
         for architecture, backbone, uda, rcs_T, plcrop in [
             ('segformer', 'mitb5', 'source-only', None, False),
-            ('segformer', 'mitb5', 'target-only', None, False),
-            ('segformer', 'mitb5', 'dacs', None, False),
-            ('segformer', 'mitb5', 'dacs', math.inf, False),
-            ('segformer', 'mitb5', 'dacs', 0.01, False),
-            ('segformer', 'mitb5', 'dacs_fd', None, False),
-            ('segformer', 'mitb5', 'dacs_fdthings', None, False),
-            ('segformer', 'mitb5', 'dacs_fdthings', 0.01, False),
-            ('segformer', 'mitb5', 'dacs_a999_fdthings', 0.01, True),
+            # ('segformer', 'mitb5', 'target-only', None, False),
+            # ('segformer', 'mitb5', 'dacs', None, False),
+            # ('segformer', 'mitb5', 'dacs', math.inf, False),
+            # ('segformer', 'mitb5', 'dacs', 0.01, False),
+            # ('segformer', 'mitb5', 'dacs_fd', None, False),
+            # ('segformer', 'mitb5', 'dacs_fdthings', None, False),
+            # ('segformer', 'mitb5', 'dacs_fdthings', 0.01, False),
+            # ('segformer', 'mitb5', 'dacs_a999_fdthings', 0.01, True),
         ]:
             for (source, target), seed in \
                     itertools.product(datasets, seeds):

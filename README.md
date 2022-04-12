@@ -1,13 +1,7 @@
 ## DAFormer: Improving Network Architectures and Training Strategies for Domain-Adaptive Semantic Segmentation
 
-**by [Lukas Hoyer](https://lhoyer.github.io/), [Dengxin Dai](https://vas.mpi-inf.mpg.de/dengxin/), and [Luc Van Gool](https://scholar.google.de/citations?user=TwMib_QAAAAJ&hl=en)**
-
 **[[Arxiv]](https://arxiv.org/abs/2111.14887)**
 **[[Paper]](https://arxiv.org/pdf/2111.14887.pdf)**
-
-:bell: We are happy to announce that DAFormer was accepted at **CVPR22**. :bell:
-
-## Overview
 
 As acquiring pixel-wise annotations of real-world images for semantic
 segmentation is a costly process, a model can instead be trained with more
@@ -47,11 +41,11 @@ For more information on DAFormer, please check our
 If you find this project useful in your research, please consider citing:
 
 ```
-@InProceedings{hoyer2022daformer,
+@article{hoyer2021daformer,
   title={DAFormer: Improving Network Architectures and Training Strategies for Domain-Adaptive Semantic Segmentation},
   author={Hoyer, Lukas and Dai, Dengxin and Van Gool, Luc},
-  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2022}
+  journal={arXiv preprint arXiv:2111.14887},
+  year={2021}
 }
 ```
 

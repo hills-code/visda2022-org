@@ -5,8 +5,10 @@ import mmcv
 import numpy as np
 import torch
 
-from . import CityscapesDataset
 from .builder import DATASETS
+from . import CityscapesDataset
+from .zerowaste import ZeroWasteDataset
+
 
 
 def get_rcs_class_probs(data_root, temperature):
@@ -78,13 +80,14 @@ class UDADataset(object):
             self.file_to_idx = {}
             for i, dic in enumerate(self.source.img_infos):
                 file = dic['ann']['seg_map']
-                if isinstance(self.source, CityscapesDataset):
+                if isinstance(self.source, CityscapesDataset): #or isinstance(self.source, ZeroWasteDataset):
                     file = file.split('/')[-1]
                 self.file_to_idx[file] = i
 
     def get_rare_class_sample(self):
         c = np.random.choice(self.rcs_classes, p=self.rcs_classprob)
         f1 = np.random.choice(self.samples_with_class[c])
+        # print(self.file_to_idx)
         i1 = self.file_to_idx[f1]
         s1 = self.source[i1]
         if self.rcs_min_crop_ratio > 0:
