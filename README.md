@@ -1,207 +1,74 @@
-## DAFormer: Improving Network Architectures and Training Strategies for Domain-Adaptive Semantic Segmentation
+# VisDA 2022 Challenge 
 
-**[[Arxiv]](https://arxiv.org/abs/2111.14887)**
-**[[Paper]](https://arxiv.org/pdf/2111.14887.pdf)**
+**[[Challenge website]](https://ai.bu.edu/visda-2022/)**
+## Datasets preparation
 
-As acquiring pixel-wise annotations of real-world images for semantic
-segmentation is a costly process, a model can instead be trained with more
-accessible synthetic data and adapted to real images without requiring their
-annotations. This process is studied in **Unsupervised Domain Adaptation (UDA)**.
+The pytorch implementation of the ZeroWaste dataset can be found in [here](zerowaste_dataloader.py).
 
-Even though a large number of methods propose new UDA strategies, they
-are mostly based on outdated network architectures. In this work, we
-particularly study the influence of the network architecture on UDA performance
-and propose **DAFormer**, a network architecture tailored for UDA. It consists of a
-Transformer encoder and a multi-level context-aware feature fusion decoder.
-
-DAFormer is enabled by three simple but crucial training strategies to stabilize the
-training and to avoid overfitting the source domain: While the
-**Rare Class Sampling** on the source domain improves the quality of pseudo-labels
-by mitigating the confirmation bias of self-training towards common classes,
-the **Thing-Class ImageNet Feature Distance** and a **Learning Rate Warmup** promote
-feature transfer from ImageNet pretraining.
-
-DAFormer significantly improves
-the state-of-the-art performance **by 10.8 mIoU for GTA→Cityscapes**
-and **by 5.4 mIoU for Synthia→Cityscapes** and enables learning even
-difficult classes such as train, bus, and truck well.
-
-![UDA over time](resources/uda_over_time.png)
-
-The strengths of DAFormer, compared to the previous state-of-the-art UDA method
-ProDA, can also be observed in qualitative examples from the Cityscapes
-validation set.
-
-![Demo](resources/demo.gif)
-![Color Palette](resources/color_palette.png)
-
-For more information on DAFormer, please check our
-[[Paper]](https://arxiv.org/pdf/2111.14887.pdf).
-
-If you find this project useful in your research, please consider citing:
-
-```
-@article{hoyer2021daformer,
-  title={DAFormer: Improving Network Architectures and Training Strategies for Domain-Adaptive Semantic Segmentation},
-  author={Hoyer, Lukas and Dai, Dengxin and Van Gool, Luc},
-  journal={arXiv preprint arXiv:2111.14887},
-  year={2021}
-}
-```
-
-## Setup Environment
-
-For this project, we used python 3.8.5. We recommend setting up a new virtual
-environment:
-
-```shell
-python -m venv ~/venv/daformer
-source ~/venv/daformer/bin/activate
-```
-
-In that environment, the requirements can be installed with:
-
-```shell
-pip install -r requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
-pip install mmcv-full==1.3.7  # requires the other packages to be installed first
-```
-
-Further, please download the MiT weights and a pretrained DAFormer using the
-following script. If problems occur with the automatic download, please follow
-the instructions for a manual download within the script.
-
+## Baseline (DAFormer)
+### Set up the environment
+We use the official implementation of the state-of-the-art transformer-based domain adaptation methods [DAFormer](https://arxiv.org/abs/2111.14887) as our baseline. 
+To get started, please follow the instructions on how to set up the environment on the DAFormer [github page](https://github.com/lhoyer/DAFormer). 
+### Download checkpoints
+To download all relevant checkpoints, please use our script.
 ```shell
 sh tools/download_checkpoints.sh
 ```
 
-All experiments were executed on a NVIDIA RTX 2080 Ti.
 
-## Inference Demo
-
-Already as this point, the provided DAFormer model (downloaded by
-`tools/download_checkpoints.sh`) can be applied to a demo image:
-
-```shell
-python -m demo.image_demo demo/demo.png work_dirs/211108_1622_gta2cs_daformer_s0_7f24c/211108_1622_gta2cs_daformer_s0_7f24c.json work_dirs/211108_1622_gta2cs_daformer_s0_7f24c/latest.pth
-```
-
-When judging the predictions, please keep in mind that DAFormer had no access
-to real-world labels during the training.
 
 ## Setup Datasets
+**ZeroWaste V1:** Please, download zerowaste-f.zip (7 Gb) from [here](http://csr.bu.edu/ftp/recycle/) and extract them to data/zerowaste-f.
 
-**Cityscapes:** Please, download leftImg8bit_trainvaltest.zip and
-gt_trainvaltest.zip from [here](https://www.cityscapes-dataset.com/downloads/)
-and extract them to `data/cityscapes`.
+**ZeroWaste V2 (unlabeled)** Please, download zerowaste-v2-trainval.zip (12 Gb) from
+[here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract
+it to `data/zerowaste-v2/`.
 
-**GTA:** Please, download all image and label packages from
-[here](https://download.visinf.tu-darmstadt.de/data/from_games/) and extract
-them to `data/gta`.
+**SynthWaste:** Please, download synthwaste_splits.zip (51 Gb) from
+[here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract it to `data/synthwaste`.
 
-**Synthia:** Please, download SYNTHIA-RAND-CITYSCAPES from
-[here](http://synthia-dataset.net/downloads/) and extract it to `data/synthia`.
+**SynthWaste-aug:** Please, download 	synthwaste_aug.zip (33Gb) from
+[here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract it to `data/synthwaste-aug` (this folder contains only the augmented train set).
 
-The final folder structure should look like this:
 
-```none
-DAFormer
-├── ...
-├── data
-│   ├── cityscapes
-│   │   ├── leftImg8bit
-│   │   │   ├── train
-│   │   │   ├── val
-│   │   ├── gtFine
-│   │   │   ├── train
-│   │   │   ├── val
-│   ├── gta
-│   │   ├── images
-│   │   ├── labels
-│   ├── synthia
-│   │   ├── RGB
-│   │   ├── GT
-│   │   │   ├── LABELS
-├── ...
-```
-
-**Data Preprocessing:** Finally, please run the following scripts to convert the label IDs to the
-train IDs and to generate the class index for RCS:
-
-```shell
-python tools/convert_datasets/gta.py data/gta --nproc 8
-python tools/convert_datasets/cityscapes.py data/cityscapes --nproc 8
-python tools/convert_datasets/synthia.py data/synthia/ --nproc 8
-```
 
 ## Training
 
-For convenience, we provide an [annotated config file](configs/daformer/gta2cs_uda_warm_fdthings_rcs_croppl_a999_daformer_mitb5_s0.py) of the final DAFormer.
-A training job can be launched using:
+We provide the following config files:
+ 
+1. `configs/daformer/zerowaste_to_zerowastev2_daformer_mit5.py` for training DAFormer on ZeroWaste V1 as source domain and ZeroWaste V2 as target domain.
+2. `configs/source_only/zerowaste_to_zerowastev2_segformer.json` to train SegFormer on ZeroWaste V1 and test on ZeroWaste V2 (source-only). 
+3. `configs/daformer/transfer_synthwaste_zerowaste_to_zerowastev2_daformer_mit5.py` to train DAFormer with a SegFormer backbone pretrained on SynthWaste on ZeroWaste V1 as source domain and ZeroWaste V2 as target domain.
+4. `configs/source_only/transfer_synthwaste_zerowaste_to_zerowastev2_segformer.json` to train SegFormer pretrained on SynthWaste on ZeroWaste V1 and test on ZeroWaste V2 (source-only). 
 
+To train the model with a desired configuration, run
 ```shell
-python run_experiments.py --config configs/daformer/gta2cs_uda_warm_fdthings_rcs_croppl_a999_daformer_mitb5_s0.py
+python -m tools.train /path/to/config/file --work-dir /path/to/experiment/folder
 ```
+The checkpoints, full config file and other relevant data will be stored in the experiment folder. By default, the experiments will be saved to the `work_dirs` folder.
+For more details on how to use the code, please see the [official DAFormer guide](https://github.com/lhoyer/DAFormer). 
 
-For the experiments in our paper (e.g. network architecture comparison,
-component ablations, ...), we use a system to automatically generate
-and train the configs:
-
-```shell
-python run_experimenty.py --exp <ID>
-```
-
-More information about the available experiments and their assigned IDs, can be
-found in [experiments.py](experiments.py). The generated configs will be stored
-in `configs/generated/`.
 
 ## Testing & Predictions
 
-The provided DAFormer checkpoint trained on GTA->Cityscapes
-(already downloaded by `tools/download_checkpoints.sh`) can be tested on the
-Cityscapes validation set using:
+To evaluate the model and output the visual examples of the predictions, run the following command:
 
 ```shell
-sh test.sh work_dirs/211108_1622_gta2cs_daformer_s0_7f24c
+python -m tools.test /path/to/config/file /path/to/checkpoint.pth --eval mIoU --show-dir /path/to/output/predictions --opacity 1
 ```
-
-The predictions are saved for inspection to
-`work_dirs/211108_1622_gta2cs_daformer_s0_7f24c/preds`
-and the mIoU of the model is printed to the console. The provided checkpoint
-should achieve 68.85 mIoU. Refer to the end of
-`work_dirs/211108_1622_gta2cs_daformer_s0_7f24c/20211108_164105.log` for
-more information such as the class-wise IoU.
-
-Similarly, also other models can be tested after the training has finished:
-
+To produce final predictions in the original label mapping (0 = 'background', 1 = 'rigid_plastic', 2 = 'cardboard', 3 = 'metal', 4 = 'soft_plastic'), use the following script:
 ```shell
-sh test.sh path/to/checkpoint_directory
+python -m tools.convert_visuals_to_labels /path/to/output/predictions /output/label/path/
 ```
 
-## Framework Structure
+## Submission format
+For both phases, we ask the participants to submit their predictions in the following format: the submitted file should be a zip archive containing two folders: **source_only** and **uda** containing predictions of the source-only and adaptation version of their solution. Each folder should contain the predicted label maps in the original label mapping (0 = 'background', 1 = 'rigid_plastic', 2 = 'cardboard', 3 = 'metal', 4 = 'soft_plastic') that should have the same name and file extension as the corresponding input images. 
 
-This project is based on [mmsegmentation version 0.16.0](https://github.com/open-mmlab/mmsegmentation/tree/v0.16.0).
-For more information about the framework structure and the config system,
-please refer to the [mmsegmentation documentation](https://mmsegmentation.readthedocs.io/en/latest/index.html)
-and the [mmcv documentation](https://mmcv.readthedocs.ihttps://arxiv.org/abs/2007.08702o/en/v1.3.7/index.html).
-
-The most relevant files for DAFormer are:
-
-* [configs/daformer/gta2cs_uda_warm_fdthings_rcs_croppl_a999_daformer_mitb5_s0.py](configs/daformer/gta2cs_uda_warm_fdthings_rcs_croppl_a999_daformer_mitb5_s0.py):
-  Annotated config file for the final DAFormer.
-* [mmseg/models/uda/dacs.py](mmseg/models/uda/dacs.py):
-  Implementation of UDA self-training with ImageNet Feature Distance.
-* [mmseg/datasets/uda_dataset.py](mmseg/datasets/uda_dataset.py):
-  Data loader for UDA with Rare Class Sampling.
-* [mmseg/models/decode_heads/daformer_head.py](mmseg/models/decode_heads/daformer_head.py):
-  Implementation of DAFormer decoder with context-aware feature fusion.
-* [mmseg/models/backbones/mix_transformer.py](mmseg/models/backbones/mix_transformer.py):
-  Implementation of Mix Transformer encoder (MiT).
-
-## Acknowledgements
-
-This project is based on the following open-source projects. We thank their
-authors for making the source code publically available.
-
-* [MMSegmentation](https://github.com/open-mmlab/mmsegmentation)
-* [SegFormer](https://github.com/NVlabs/SegFormer)
-* [DACS](https://github.com/vikolss/DACS)
+## Baseline results
+The baseline results on the test set of ZeroWaste V2 are as follows:
+| Experiment            |    mIoU     |    Acc      |
+| -----------           | ----------- | ----------- |
+| SegFormer V1          |       45.49      |     91.64       |
+| SegFormer Synthwaste->V1 (transfer)|         |         |
+| DAFormer V1->V2       |       52.26      |      91.2       |
+| DAFormer V1->V2 (SynthWaste-pretrained)|           |         |

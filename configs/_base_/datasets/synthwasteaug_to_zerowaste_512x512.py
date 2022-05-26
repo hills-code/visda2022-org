@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'ZeroWasteDataset'
-data_root = 'data/zerowaste-f-daformer/'
+data_root = 'data/zerowaste-f/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 crop_size = (512, 512)
@@ -37,8 +37,8 @@ data = dict(
     samples_per_gpu=2,
     workers_per_gpu=4,
     train=dict(
-       type='ZeroWasteDataset',
-            data_root='data/zerowaste-f/train',
+       type='SynthWasteDataset',
+            data_root='data/synthwaste-aug/train',
             img_dir='data',
             ann_dir='sem_seg',
             pipeline=train_pipeline),
