@@ -30,6 +30,7 @@ it to `data/zerowaste-v2/`.
 **SynthWaste-aug:** Please, download 	synthwaste_aug.zip (33Gb) from
 [here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract it to `data/synthwaste-aug` (this folder contains only the augmented train set).
 
+Note: if you want to retrain the model on the combination of SynthWaste-aug and ZeroWaste-f, please combine the folders of ZeroWaste V1 and SynthWaste-aug to the folder `data/synthwaste_aug_zerowastev1`. 
 
 
 ## Training
@@ -38,8 +39,8 @@ We provide the following config files:
  
 1. `configs/daformer/zerowaste_to_zerowastev2_daformer_mit5.py` for training DAFormer on ZeroWaste V1 as source domain and ZeroWaste V2 as target domain.
 2. `configs/source_only/zerowaste_to_zerowastev2_segformer.json` to train SegFormer on ZeroWaste V1 and test on ZeroWaste V2 (source-only). 
-3. `configs/daformer/transfer_synthwaste_zerowaste_to_zerowastev2_daformer_mit5.py` to train DAFormer with a SegFormer backbone pretrained on SynthWaste on ZeroWaste V1 as source domain and ZeroWaste V2 as target domain.
-4. `configs/source_only/transfer_synthwaste_zerowaste_to_zerowastev2_segformer.json` to train SegFormer pretrained on SynthWaste on ZeroWaste V1 and test on ZeroWaste V2 (source-only). 
+3. `configs/daformer/synthzerowaste_to_zerowastev2_daformer.py` to train DAFormer on the combination of SynthWaste-aug and ZeroWaste V1 as source domain and ZeroWaste V2 as target domain.
+4. `configs/source_only/synthzerowaste_segformer.json` to train SegFormer on the combination of SynthWaste-aug and ZeroWaste V1 and test on ZeroWaste V2 (source-only). 
 
 To train the model with a desired configuration, run
 ```shell
@@ -69,6 +70,6 @@ The baseline results on the test set of ZeroWaste V2 are as follows:
 | Experiment            |    mIoU     |    Acc      |
 | -----------           | ----------- | ----------- |
 | SegFormer V1          |       45.49      |     91.64       |
-| SegFormer Synthwaste->V1 (transfer)|         |         |
+| SegFormer Synthwaste_aug+V1 |      42.61   |      91.22   |
 | DAFormer V1->V2       |       52.26      |      91.2       |
-| DAFormer V1->V2 (SynthWaste-pretrained)|           |         |
+| DAFormer SynthWaste_aug+V1->V2 |      48.31     |    90.63     |
