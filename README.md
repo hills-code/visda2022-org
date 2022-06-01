@@ -24,7 +24,7 @@ sh tools/download_checkpoints.sh
 [here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract
 it to `data/zerowaste-v2/`.
 
-**SynthWaste:** Please, download synthwaste_splits.zip (51 Gb) from
+**SynthWaste:** Please, download synthwaste_splits.zip (48 Gb) from
 [here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract it to `data/synthwaste`.
 
 **SynthWaste-aug:** Please, download 	synthwaste_aug.zip (33Gb) from
@@ -73,3 +73,6 @@ The baseline results on the test set of ZeroWaste V2 are as follows:
 | SegFormer Synthwaste_aug+V1 |      42.61   |      91.22   |
 | DAFormer V1->V2       |       52.26      |      91.2       |
 | DAFormer SynthWaste_aug+V1->V2 |      48.31     |    90.63     |
+
+## Custom simulation
+We also allow the participants to generate their custom synthetic datasets to achieve the best performance. Please see how to use our simulation software [here](simulation/readme.txt). 
