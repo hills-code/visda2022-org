@@ -13,7 +13,7 @@ from .custom import CustomDataset
 
 
 @DATASETS.register_module()
-class ZeroWasteDataset(CustomDataset):
+class ZeroWasteV2Dataset(CustomDataset):
     """CocoDetection dataset.
 
     The ``img_suffix`` is fixed to '_leftImg8bit.png' and ``seg_map_suffix`` is
@@ -26,9 +26,9 @@ class ZeroWasteDataset(CustomDataset):
                
 
     def __init__(self, **kwargs):
-        super(ZeroWasteDataset, self).__init__(
-            img_suffix='.PNG',
-            seg_map_suffix='.PNG',
+        super(ZeroWasteV2Dataset, self).__init__(
+            img_suffix='.png',
+            seg_map_suffix='.png',
             **kwargs)
 
     @staticmethod
@@ -152,7 +152,7 @@ class ZeroWasteDataset(CustomDataset):
             metrics.remove('cityscapes')
         if len(metrics) > 0:
             eval_results.update(
-                super(ZeroWasteDataset,
+                super(ZeroWasteV2Dataset,
                       self).evaluate(results, metrics, logger, efficient_test))
 
         return eval_results

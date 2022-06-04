@@ -13,22 +13,24 @@ from .custom import CustomDataset
 
 
 @DATASETS.register_module()
-class ZeroWasteDataset(CustomDataset):
+class SynthWasteDataset(CustomDataset):
     """CocoDetection dataset.
 
     The ``img_suffix`` is fixed to '_leftImg8bit.png' and ``seg_map_suffix`` is
     fixed to '_gtFine_labelTrainIds.png' for Cityscapes dataset.
     """
 
+    # CLASSES = ('background', 'rigid_plastic', 'cardboard', 'metal', 'soft_plastic', 'paper')
     CLASSES = ('background', 'rigid_plastic', 'cardboard', 'metal', 'soft_plastic')
 
+    # PALETTE = [[0, 0, 0], [128, 64, 128], [244, 35, 232], [70, 70, 70], [102, 102, 156], [255, 255, 255]]
     PALETTE = [[0, 0, 0], [128, 64, 128], [244, 35, 232], [70, 70, 70], [102, 102, 156]]
                
 
     def __init__(self, **kwargs):
-        super(ZeroWasteDataset, self).__init__(
-            img_suffix='.PNG',
-            seg_map_suffix='.PNG',
+        super(SynthWasteDataset, self).__init__(
+            img_suffix='.png',
+            seg_map_suffix='.png',
             **kwargs)
 
     @staticmethod
@@ -152,7 +154,7 @@ class ZeroWasteDataset(CustomDataset):
             metrics.remove('cityscapes')
         if len(metrics) > 0:
             eval_results.update(
-                super(ZeroWasteDataset,
+                super(SynthWasteDataset,
                       self).evaluate(results, metrics, logger, efficient_test))
 
         return eval_results

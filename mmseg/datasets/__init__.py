@@ -6,18 +6,24 @@ from .gta import GTADataset
 from .synthia import SynthiaDataset
 from .uda_dataset import UDADataset
 from .zerowaste import ZeroWasteDataset
+from .zerowastev2 import ZeroWasteV2Dataset
+from .synthwaste import SynthWasteDataset
+
 
 __all__ = [
     'CustomDataset',
     'build_dataloader',
     'ConcatDataset',
     'RepeatDataset',
-    'ZeroWasteDataset',
     'DATASETS',
     'build_dataset',
     'PIPELINES',
     'CityscapesDataset',
     'GTADataset',
     'SynthiaDataset',
-    'UDADataset'
+    'ZeroWasteDataset',
+    'ZeroWasteV2Dataset',
+    'SynthWasteDataset',
+    'UDADataset',
+    
 ]

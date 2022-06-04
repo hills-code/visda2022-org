@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'ZeroWasteDataset'
-data_root = 'data/zerowaste-v2/'
+data_root = 'data/zerowaste-v2-splits/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 crop_size = (512, 512)
@@ -33,25 +33,57 @@ test_pipeline = [
             dict(type='Collect', keys=['img']),
         ])
 ]
+# data = dict(
+#     samples_per_gpu=2,
+#     workers_per_gpu=4,
+#     train=dict(
+#        type='ZeroWasteDataset',
+#             data_root='data/zerowaste-f/train',
+#             img_dir='data',
+#             ann_dir='sem_seg',
+#             pipeline=train_pipeline),
+#     val=dict(
+#         type='ZeroWasteDataset',
+#             data_root='data/zerowaste-f/test',
+#             # data_root='data/zerowaste-f/val',
+#             img_dir='data',
+#             ann_dir='sem_seg',
+#             pipeline=test_pipeline),
+#    test=dict(
+#        type='ZeroWasteV2Dataset',
+#             data_root='data/zerowaste-v2-splits/test',
+#             img_dir='data',
+#             ann_dir='sem_seg',
+#             pipeline=test_pipeline))
+
 data = dict(
     samples_per_gpu=2,
     workers_per_gpu=4,
     train=dict(
-       type='ZeroWasteDataset',
+        type='UDADataset',
+        source=dict(
+            type='ZeroWasteDataset',
             data_root='data/zerowaste-f/train',
             img_dir='data',
             ann_dir='sem_seg',
             pipeline=train_pipeline),
+        target=dict(
+            type='ZeroWasteV2Dataset',
+            data_root='data/zerowaste-v2-splits/train',
+            img_dir='data',
+            ann_dir='sem_seg',
+            pipeline=train_pipeline)
+            ),
     val=dict(
-        type='ZeroWasteDataset',
-            data_root='data/zerowaste-f/test',
-            # data_root='data/zerowaste-f/val',
+       type='ZeroWasteDataset',
+            data_root='data/zerowaste-v2-splits/test',
             img_dir='data',
             ann_dir='sem_seg',
             pipeline=test_pipeline),
-   test=dict(
+    test=dict(
        type='ZeroWasteV2Dataset',
             data_root='data/zerowaste-v2/test',
             img_dir='data',
             ann_dir='sem_seg',
-            pipeline=test_pipeline))
+            pipeline=test_pipeline)
+)
