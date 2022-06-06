@@ -1,9 +1,9 @@
 {
     "_base_": [
-        "../../_base_/default_runtime.py",
-        "../../_base_/models/segformer_b5_synthwaste.py",
-        "../../_base_/datasets/zerowaste_to_zerowastev2_512x512.py",
-        "../../_base_/schedules/adamw.py",
+        "../_base_/default_runtime.py",
+        "../_base_/models/segformer_b5_synthwaste.py",
+        "../_base_/datasets/zerowaste_to_zerowastev2_512x512.py",
+        "../_base_/schedules/adamw.py",
         "../../_base_/schedules/poly10warm.py"
     ],
     "n_gpus": 1,
