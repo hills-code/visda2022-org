@@ -46,7 +46,7 @@
         "max_keep_ckpts": 1
     },
     "evaluation": {
-        "interval": 100,
+        "interval": 5000,
         "metric": "mIoU"
     },
     "name": "zerowaste2zerowastev2_source-only_segformer_mitb5",

@@ -22,7 +22,7 @@ sh tools/download_checkpoints.sh
 
 **ZeroWaste V2 (unlabeled)** Please, download zerowaste-v2-trainval.zip (12 Gb) from
 [here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract
-it to `data/zerowaste-v2/`.
+it to `data/zerowaste-v2-splits/`.
 
 **SynthWaste:** Please, download synthwaste_splits.zip (48 Gb) from
 [here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract it to `data/synthwaste`.
