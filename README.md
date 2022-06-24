@@ -18,7 +18,7 @@ sh tools/download_checkpoints.sh
 
 
 ## Setup Datasets
-**ZeroWaste V1:** Please, download zerowaste-f.zip (7 Gb) from [here](http://csr.bu.edu/ftp/recycle/) and extract them to data/zerowaste-f.
+**ZeroWaste V1:** Please, download zerowaste-f.zip (7 Gb) from [here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract them to data/zerowaste-f.
 
 **ZeroWaste V2 (unlabeled)** Please, download zerowaste-v2-trainval.zip (12 Gb) from
 [here](http://csr.bu.edu/ftp/recycle/visda-2022/) and extract
