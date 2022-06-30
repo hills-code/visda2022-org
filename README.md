@@ -65,7 +65,9 @@ python -m tools.convert_visuals_to_labels /path/to/output/predictions /output/la
 ## Submit on eval.ai
 For evaluation, participants are required to join [VisDA-2022](https://eval.ai/web/challenges/challenge-page/1806/overview) the challenge on eval.ai. Please create an account on [eval.ai](https://eval.ai/) with the same email address you used to sign up for the challenge. Under the VisDA-2022 challenge, go to "Participate" and create a team with the same name as the one you registered. All members of a team need not be on eval.ai as long as one member in the team can submit. 
 
-Information regarding challenge phases can be found under "Phases". We are currently in Phase-1, the development phase of the challenge. For evaluating your method, you can submit a zip file of your predictions in the format described below. eval.ai allows you to submit either via the web UI or via a [command line interface](https://cli.eval.ai/). 
+Information regarding challenge phases can be found under "Phases". We are currently in Phase-1, the development phase of the challenge. For evaluating your method, you can submit a zip file of your predictions in the format described below. eval.ai allows you to submit either via the web UI or via a [command line interface](https://cli.eval.ai/). In Phase-1 each time has a limit of 5 submissions per day. 
+
+Once submitted, you can see the status of your submission under "My Submissions". Each evaluation takes around 9 mins during which your submission will be in the "Running" state. The server handles one submission at a time, so you may see your submission in the "Submitted" state before it gets to "Running".
 
 Refer to evalai documentation for more information on how to [participate](https://evalai.readthedocs.io/en/latest/participate.html) and how to [handle submissions](https://evalai.readthedocs.io/en/latest/make_submission_public_private_baseline.html). Feel free to contact the visda organizers via [email](mailto:visda-organizers@googlegroups.com), or a github issue for questions regarding the interface.
 
