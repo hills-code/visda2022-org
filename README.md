@@ -62,6 +62,14 @@ To produce final predictions in the original label mapping (0 = 'background', 1 
 python -m tools.convert_visuals_to_labels /path/to/output/predictions /output/label/path/
 ```
 
+## Submit on eval.ai
+For evaluation, participants are required to join [VisDA-2022](https://eval.ai/web/challenges/challenge-page/1806/overview) the challenge on eval.ai. Please create an account on [eval.ai](https://eval.ai/) with the same email address you used to sign up for the challenge. Under the VisDA-2022 challenge, go to "Participate" and create a team with the same name as the one you registered. All members of a team need not be on eval.ai as long as one member in the team can submit. 
+
+Information regarding challenge phases can be found under "Phases". We are currently in Phase-1, the development phase of the challenge. For evaluating your method, you can submit a zip file of your predictions in the format described below. eval.ai allows you to submit either via the web UI or via a [command line interface](https://cli.eval.ai/). 
+
+Refer to evalai documentation for more information on how to [participate](https://evalai.readthedocs.io/en/latest/participate.html) and how to [handle submissions](https://evalai.readthedocs.io/en/latest/make_submission_public_private_baseline.html). Feel free to contact the visda organizers via [email](mailto:visda-organizers@googlegroups.com), or a github issue for questions regarding the interface.
+
+
 ## Submission format
 For both phases, we ask the participants to submit their predictions in the following format: the submitted file should be a zip archive containing two folders: **source_only** and **uda** containing predictions of the source-only and adaptation version of their solution. Each folder should contain the predicted label maps in the original label mapping (0 = 'background', 1 = 'rigid_plastic', 2 = 'cardboard', 3 = 'metal', 4 = 'soft_plastic') that should have the same name and file extension as the corresponding input images. 
 
