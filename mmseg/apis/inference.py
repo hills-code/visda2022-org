@@ -1,7 +1,4 @@
-# Obtained from: https://github.com/open-mmlab/mmsegmentation/tree/v0.16.0
-# Modifications:
-# - Override palette, classes, and state dict keys
-
+# Copyright (c) OpenMMLab. All rights reserved.
 import matplotlib.pyplot as plt
 import mmcv
 import torch
@@ -12,12 +9,7 @@ from mmseg.datasets.pipelines import Compose
 from mmseg.models import build_segmentor
 
 
-def init_segmentor(config,
-                   checkpoint=None,
-                   device='cuda:0',
-                   classes=None,
-                   palette=None,
-                   revise_checkpoint=[(r'^module\.', '')]):
+def init_segmentor(config, checkpoint=None, device='cuda:0'):
     """Initialize a segmentor from config file.
 
     Args:
@@ -39,15 +31,9 @@ def init_segmentor(config,
     config.model.train_cfg = None
     model = build_segmentor(config.model, test_cfg=config.get('test_cfg'))
     if checkpoint is not None:
-        checkpoint = load_checkpoint(
-            model,
-            checkpoint,
-            map_location='cpu',
-            revise_keys=revise_checkpoint)
-        model.CLASSES = checkpoint['meta']['CLASSES'] if classes is None \
-            else classes
-        model.PALETTE = checkpoint['meta']['PALETTE'] if palette is None \
-            else palette
+        checkpoint = load_checkpoint(model, checkpoint, map_location='cpu')
+        model.CLASSES = checkpoint['meta']['CLASSES']
+        model.PALETTE = checkpoint['meta']['PALETTE']
     model.cfg = config  # save the config in the model for convenience
     model.to(device)
     model.eval()
@@ -120,7 +106,8 @@ def show_result_pyplot(model,
                        fig_size=(15, 10),
                        opacity=0.5,
                        title='',
-                       block=True):
+                       block=True,
+                       out_file=None):
     """Visualize the segmentation results on the image.
 
     Args:
@@ -138,6 +125,8 @@ def show_result_pyplot(model,
             Default is ''.
         block (bool): Whether to block the pyplot figure.
             Default is True.
+        out_file (str or None): The path to write the image.
+            Default: None.
     """
     if hasattr(model, 'module'):
         model = model.module
@@ -148,3 +137,5 @@ def show_result_pyplot(model,
     plt.title(title)
     plt.tight_layout()
     plt.show(block=block)
+    if out_file is not None:
+        mmcv.imwrite(img, out_file)

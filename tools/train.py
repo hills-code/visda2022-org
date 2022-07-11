@@ -163,12 +163,13 @@ def main(args):
     model.CLASSES = datasets[0].CLASSES
     # passing checkpoint meta for saving best checkpoint
     meta.update(cfg.checkpoint_config.meta)
+    cfg.device = 'cuda' if torch.cuda.is_available() else 'cpu'
     train_segmentor(
         model,
         datasets,
         cfg,
         distributed=distributed,
-        validate=(not args.no_validate),
+        validate=False,
         timestamp=timestamp,
         meta=meta)
 

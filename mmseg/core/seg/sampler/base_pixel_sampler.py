@@ -1,5 +1,4 @@
-# Obtained from: https://github.com/open-mmlab/mmsegmentation/tree/v0.16.0
-
+# Copyright (c) OpenMMLab. All rights reserved.
 from abc import ABCMeta, abstractmethod
 
 
